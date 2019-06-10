@@ -1,0 +1,32 @@
+# подключение модуля и сокращение названия для удобства
+import pandas as pd
+
+# для использования функций numpy
+import numpy as np
+#для отрисовки графиков
+import matplotlib.pyplot as plt
+
+import zipfile
+for i in range(226):
+     hey=pd.DataFrame({i:[]})#Создаем DataFrame
+print(hey)
+
+z = zipfile.ZipFile('evolution.zip', 'r')
+
+z.extractall()
+
+for name in z.namelist(): #проходимся по именам файлов 
+    with open(name, "r") as file:
+        j=0
+        contents = file.readlines()#считываем все строки из файла
+        #print(len(contents)) выводит количество строк
+        
+        for i in range(1, len(contents)):
+            hey.append({ i-1:((str(contents[i])).split(' '))[0]},ignore_index=True )
+            j+=1
+            #print (i)
+            
+print(z)
+       
+    
+z.close() #закроем архив 
