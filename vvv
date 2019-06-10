@@ -7,26 +7,41 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 import zipfile
-for i in range(226):
-     hey=pd.DataFrame({i:[]})#Создаем DataFrame
-print(hey)
+
 
 z = zipfile.ZipFile('evolution.zip', 'r')
 
 z.extractall()
 
+A = []
+#row = []
+
 for name in z.namelist(): #проходимся по именам файлов 
     with open(name, "r") as file:
-        j=0
         contents = file.readlines()#считываем все строки из файла
-        #print(len(contents)) выводит количество строк
-        
+        row = []
         for i in range(1, len(contents)):
-            hey.append({ i-1:((str(contents[i])).split(' '))[0]},ignore_index=True )
-            j+=1
-            #print (i)
+            #row = []
+            num = float(((str(contents[i])).split(' '))[0])    
+            row.append(num)
+        A.append(row)
+    file.close()
             
-print(z)
-       
+
     
-z.close() #закроем архив 
+z.close() #закроем архив
+d=pd.DataFrame(A)
+
+#Найти номера орбит, расстояние перицентров которых всегда больше 6350 км.
+
+d_m=d[d>6350]
+
+dd=d.to_numpy()
+
+#Изобразить цветовую карту (contourf): 
+#по оси абсцисс - номер орбиты, по оси ординат - номер дня, 
+#цветом отображены расстояния перицентров.
+#Рядом с цветовой картой изобразить colorbar.
+
+plt.contourf(d[:].T)
+plt.colorbar()
